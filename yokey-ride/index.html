@@ -49,5 +49,6 @@ function detailText(d={}){return Object.entries(d).filter(([,v])=>v!==''&&v!=nul
 async function refresh(){if(!EMAIL||!TOKEN)return;statusEl.textContent='Connecting to your YOKEY RIDE workspace…';try{const d=await api('list');const rows=d.rows||[];statusEl.textContent='Evaluation active • data persistence connected';for(const t of ['load','trip','expense','note','document']){const el=document.getElementById('list-'+t), ar=rows.filter(r=>r.record_type===t);el.innerHTML=ar.length?ar.map(r=>`<div class="item"><div class="item-title">${safe(r.title)}</div><div class="item-meta">${safe(detailText(r.details||{}))}</div><button class="btn danger" onclick="delRec('${r.id}')">Delete</button></div>`).join(''):'<p class="muted">Nothing saved yet.</p>'}mLoads.textContent=rows.filter(r=>r.record_type==='load').length;mTrips.textContent=rows.filter(r=>r.record_type==='trip').length;const total=rows.filter(r=>r.record_type==='expense').reduce((a,r)=>a+(parseFloat((r.details||{}).amount)||0),0);mExpenses.textContent='$'+total.toFixed(2)}catch(e){statusEl.textContent='Access unavailable: '+e.message}}
 refresh();
 </script>
+<!-- deployment trigger 2026-09-23 -->
 </body>
 </html>
