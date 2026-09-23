@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+<meta name="theme-color" content="#07111d" />
+<title>YOKEY RIDE — powered by EPMOS</title>
+<style>
+:root{--bg:#07111d;--panel:#0d1b2a;--panel2:#10273a;--line:#24455f;--text:#edf7ff;--muted:#8fa9bc;--accent:#49d4ff;--good:#6ee7a8;--danger:#ff6b6b}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(180deg,#06101b,#07111d 42%,#091725);color:var(--text);font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;min-height:100vh}.shell{max-width:1100px;margin:0 auto;padding:18px}.top,.nav,.main,.card,.item,.status{border:1px solid var(--line);background:var(--panel);border-radius:18px}.top{padding:20px}.powered{color:var(--accent);font-size:12px;font-weight:900;letter-spacing:.14em}.brand{font-size:30px;font-weight:950;letter-spacing:.07em;margin-top:4px}.muted{color:var(--muted)}.grid{display:grid;grid-template-columns:210px 1fr;gap:16px;margin-top:16px}.nav{padding:12px;height:max-content;position:sticky;top:12px}.nav button{display:block;width:100%;padding:12px;margin:4px 0;border:0;border-radius:12px;background:transparent;color:var(--muted);text-align:left;font-weight:800}.nav button.active{background:#12314a;color:#fff}.main{padding:18px}.status{padding:11px 13px;background:var(--panel2);margin-bottom:14px}.panel{display:none}.panel.active{display:block}.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.card{padding:15px}.metric{font-size:26px;font-weight:950}.accent{color:var(--accent)}.good{color:var(--good)}input,textarea{width:100%;padding:12px;border-radius:11px;border:1px solid #2a5068;background:#081826;color:#fff;margin:5px 0;font:inherit}textarea{min-height:100px;resize:vertical}.row{display:grid;grid-template-columns:1fr 1fr;gap:8px}.btn{padding:11px 14px;border:0;border-radius:11px;background:var(--accent);color:#031018;font-weight:900;margin:5px 5px 5px 0}.btn.danger{background:var(--danger)}.item{padding:13px;margin-top:9px}.item-title{font-weight:850}.item-meta{color:var(--muted);margin-top:4px;white-space:pre-wrap}.foot{margin-top:18px;color:#7894a8;font-size:12px}.blocked{display:none;padding:20px}.blocked.show{display:block}.app.hidden{display:none}@media(max-width:760px){.shell{padding:12px}.grid{grid-template-columns:1fr}.nav{position:static;display:grid;grid-template-columns:repeat(4,1fr);gap:4px}.nav button{font-size:11px;padding:9px 5px;text-align:center}.cards{grid-template-columns:1fr 1fr}.brand{font-size:27px}.row{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="shell">
+  <div class="top"><div class="powered">POWERED BY EPMOS</div><div class="brand">YOKEY RIDE</div><div class="muted">Evaluation Edition • persistent trucking workspace</div></div>
+  <div id="blocked" class="blocked"><h2>Evaluation access required</h2><p class="muted">Open YOKEY RIDE using the private evaluation link issued to you.</p></div>
+  <div id="app" class="app">
+    <div class="grid">
+      <nav class="nav">
+        <button class="active" data-tab="home">Command</button><button data-tab="loads">Loads</button><button data-tab="trips">Trips</button><button data-tab="money">Expenses</button><button data-tab="notes">Notes</button><button data-tab="docs">Documents</button><button data-tab="profile">Company</button>
+      </nav>
+      <main class="main">
+        <div id="status" class="status">Connecting to your YOKEY RIDE workspace…</div>
+        <section id="home" class="panel active"><h2>Command Center</h2><p class="muted">Use this as your real evaluation workspace. Entries save to your YOKEY RIDE account and return when you reopen the app.</p><div class="cards"><div class="card"><div class="muted">Saved Loads</div><div id="mLoads" class="metric accent">0</div></div><div class="card"><div class="muted">Saved Trips</div><div id="mTrips" class="metric good">0</div></div><div class="card"><div class="muted">Saved Expenses</div><div id="mExpenses" class="metric">$0.00</div></div></div></section>
+        <section id="loads" class="panel"><h2>Loads</h2><input id="loadTitle" placeholder="Miami → Orlando"/><div class="row"><input id="loadEquip" placeholder="Equipment"/><input id="loadRate" placeholder="Rate / offer"/></div><textarea id="loadNotes" placeholder="Pickup, delivery, broker/shipper, appointment, notes"></textarea><button class="btn" onclick="addRec('load')">Save Load</button><div id="list-load"></div></section>
+        <section id="trips" class="panel"><h2>Trips</h2><input id="tripTitle" placeholder="Orlando → Tallahassee"/><textarea id="tripNotes" placeholder="Pickup, delivery, dispatcher, status, mileage"></textarea><button class="btn" onclick="addRec('trip')">Save Trip</button><div id="list-trip"></div></section>
+        <section id="money" class="panel"><h2>Expenses</h2><div class="row"><input id="expTitle" placeholder="Fuel, tolls, maintenance"/><input id="expAmount" inputmode="decimal" placeholder="Amount"/></div><textarea id="expNotes" placeholder="Vendor/location/receipt notes"></textarea><button class="btn" onclick="addRec('expense')">Save Expense</button><div id="list-expense"></div></section>
+        <section id="notes" class="panel"><h2>Road Notes</h2><input id="noteTitle" placeholder="Note title"/><textarea id="noteText" placeholder="Anything you want to remember"></textarea><button class="btn" onclick="addRec('note')">Save Note</button><div id="list-note"></div></section>
+        <section id="docs" class="panel"><h2>Document Reminders</h2><input id="docTitle" placeholder="BOL, POD, insurance, rate confirmation"/><textarea id="docText" placeholder="Reminder/details"></textarea><button class="btn" onclick="addRec('document')">Save Reminder</button><div id="list-document"></div></section>
+        <section id="profile" class="panel"><h2>Company</h2><div class="card"><div class="item-title">YOKEY RIDE</div><div class="item-meta">Private trucking evaluation workspace\nPowered by EPMOS\nEvaluation through October 5, 2026</div></div></section>
+        <div class="foot">Evaluation data stays with this workspace. If the evaluation converts to an active licensed edition, the same operating history can continue forward.</div>
+      </main>
+    </div>
+  </div>
+</div>
+<script>
+const API='https://oavcxowjkabtioevgtls.supabase.co/functions/v1/yokey-ride-api';
+const qs=new URLSearchParams(location.search), EMAIL=(qs.get('e')||'').toLowerCase(), TOKEN=qs.get('k')||'';
+const app=document.getElementById('app'), blocked=document.getElementById('blocked'), statusEl=document.getElementById('status');
+if(!EMAIL||!TOKEN){app.classList.add('hidden');blocked.classList.add('show');}
+document.querySelectorAll('[data-tab]').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('[data-tab]').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.panel').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.getElementById(b.dataset.tab).classList.add('active')}));
+function safe(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+async function api(action,payload={}){const r=await fetch(API,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({action,email:EMAIL,token:TOKEN,...payload})});let d={};try{d=await r.json()}catch{}if(!r.ok)throw new Error(d.error||'Request failed');return d}
+function detailsFor(type){if(type==='load')return {equipment:loadEquip.value,rate:loadRate.value,notes:loadNotes.value};if(type==='trip')return {notes:tripNotes.value};if(type==='expense')return {amount:expAmount.value,notes:expNotes.value};if(type==='note')return {text:noteText.value};if(type==='document')return {text:docText.value};return {}}
+function titleFor(type){return ({load:loadTitle,trip:tripTitle,expense:expTitle,note:noteTitle,document:docTitle})[type].value}
+async function addRec(type){const title=titleFor(type).trim();if(!title)return alert('Add a title first.');try{await api('add',{type,title,details:detailsFor(type)});await refresh();}catch(e){alert(e.message)}}
+async function delRec(id){if(!confirm('Delete this saved item?'))return;try{await api('delete',{id});await refresh()}catch(e){alert(e.message)}}
+function detailText(d={}){return Object.entries(d).filter(([,v])=>v!==''&&v!=null).map(([k,v])=>k+': '+v).join(' • ')}
+async function refresh(){if(!EMAIL||!TOKEN)return;statusEl.textContent='Connecting to your YOKEY RIDE workspace…';try{const d=await api('list');const rows=d.rows||[];statusEl.textContent='Evaluation active • data persistence connected';for(const t of ['load','trip','expense','note','document']){const el=document.getElementById('list-'+t), ar=rows.filter(r=>r.record_type===t);el.innerHTML=ar.length?ar.map(r=>`<div class="item"><div class="item-title">${safe(r.title)}</div><div class="item-meta">${safe(detailText(r.details||{}))}</div><button class="btn danger" onclick="delRec('${r.id}')">Delete</button></div>`).join(''):'<p class="muted">Nothing saved yet.</p>'}mLoads.textContent=rows.filter(r=>r.record_type==='load').length;mTrips.textContent=rows.filter(r=>r.record_type==='trip').length;const total=rows.filter(r=>r.record_type==='expense').reduce((a,r)=>a+(parseFloat((r.details||{}).amount)||0),0);mExpenses.textContent='$'+total.toFixed(2)}catch(e){statusEl.textContent='Access unavailable: '+e.message}}
+refresh();
+</script>
+</body>
+</html>
