@@ -1,0 +1,13 @@
+name: Actions Account Diagnostic
+'on':
+  push:
+    paths:
+      - '.github/workflows/actions-private-gate-diagnostic.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo PUBLIC_ACTIONS_OK
